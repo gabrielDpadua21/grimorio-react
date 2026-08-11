@@ -9,7 +9,10 @@ export default function Sheet({ game }) {
   const total = Object.values(state.attrs).reduce((a, b) => a + b, 0)
 
   return (
-    <Shell eyebrow="Ficha da Cronista" footer="o grimório se abre sozinho a cada fragmento encontrado">
+    <Shell
+      eyebrow="Ficha da Cronista"
+      footer={<p className="sheet-footer">O grimório se abre sozinho a cada fragmento encontrado</p>}
+    >
       <div className="sheet-name">{state.name}</div>
       <div className="rank">{complete ? <b>{rankTitle(state.attrs)}</b> : rankTitle(state.attrs)}</div>
 
