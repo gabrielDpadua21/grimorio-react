@@ -12,6 +12,8 @@ function loadState() {
 
 export function useGameState() {
   const [state, setState] = useState(loadState)
+  // stage ids unlocked during this app session, not persisted — drives the map's one-time pop-in
+  const [justUnlockedIds, setJustUnlockedIds] = useState([])
 
   const persist = useCallback((next) => {
     setState(next)
@@ -31,8 +33,13 @@ export function useGameState() {
       attrs: { ...state.attrs, [attr]: (state.attrs[attr] || 0) + 1 }
     }
     persist(next)
+    setJustUnlockedIds((prev) => (prev.includes(stageId) ? prev : [...prev, stageId]))
     return true
   }, [state, persist])
+
+  const ackJustUnlocked = useCallback((stageId) => {
+    setJustUnlockedIds((prev) => prev.filter((id) => id !== stageId))
+  }, [])
 
   const markCompleted = useCallback(() => {
     persist({ ...state, completedAt: Date.now() })
@@ -40,5 +47,5 @@ export function useGameState() {
 
   const isUnlocked = useCallback((stageId) => !!state.unlocked[stageId], [state])
 
-  return { state, setName, unlockAndGrant, markCompleted, isUnlocked }
+  return { state, setName, unlockAndGrant, markCompleted, isUnlocked, justUnlockedIds, ackJustUnlocked }
 }

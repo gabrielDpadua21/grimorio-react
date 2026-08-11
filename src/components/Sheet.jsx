@@ -4,7 +4,7 @@ import MapProgress from './MapProgress.jsx'
 import { ATTR_LABELS, ATTR_MAX, CHEST_ORDER, rankTitle } from '../data.js'
 
 export default function Sheet({ game }) {
-  const { state, isUnlocked } = game
+  const { state, isUnlocked, justUnlockedIds, ackJustUnlocked } = game
   const complete = !!state.completedAt
   const total = Object.values(state.attrs).reduce((a, b) => a + b, 0)
 
@@ -32,7 +32,7 @@ export default function Sheet({ game }) {
         <div className="chest-title">
           Baú de Histórias · {total > 0 ? CHEST_ORDER.filter((e) => isUnlocked(e.id)).length : 0}/{CHEST_ORDER.length}
         </div>
-        <MapProgress isUnlocked={isUnlocked} />
+        <MapProgress isUnlocked={isUnlocked} justUnlockedIds={justUnlockedIds} onSeen={ackJustUnlocked} />
         {CHEST_ORDER.map((e) => {
           const unlocked = isUnlocked(e.id)
           return unlocked ? (

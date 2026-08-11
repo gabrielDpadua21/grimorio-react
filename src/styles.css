@@ -8,6 +8,7 @@
   --ember: #b5432d;
   --violet-grey: #8b84a8;
   --success: #5f8a5a;
+  --success-deep: #3f6b3c;
   --shadow-deep: rgba(0,0,0,0.55);
 }
 *{box-sizing:border-box;}
@@ -190,17 +191,52 @@ button:disabled{ opacity:0.55; cursor:default; }
 }
 
 .map-progress{ margin:14px 0 20px; }
-.map-svg{ display:block; width:100%; max-width:220px; height:auto; margin:0 auto; }
-.map-trail{ fill:none; stroke:var(--gold-soft); stroke-width:1.5; stroke-dasharray:4 5; opacity:0.4; }
-.map-node-dot{ fill:rgba(44,35,20,0.22); stroke:rgba(44,35,20,0.32); stroke-width:1; }
+.map-svg{ display:block; width:100%; max-width:220px; height:auto; margin:0 auto; overflow:visible; }
+
+/* always-visible dashed trail, dim */
+.map-segment-bg{ fill:none; stroke:var(--gold-soft); stroke-width:1.5; stroke-dasharray:4 5; opacity:0.35; }
+/* solid colored overlay that draws itself in when both ends of the stretch are unlocked */
+.map-segment-fill{
+  fill:none; stroke:var(--success); stroke-width:2.2; stroke-linecap:round;
+  stroke-dasharray:1; stroke-dashoffset:1; opacity:0;
+  transition: stroke-dashoffset 0.8s ease-out, opacity 0.3s ease;
+}
+.map-segment-fill.revealed{ stroke-dashoffset:0; opacity:0.85; }
+
+.map-node-dot{
+  fill:rgba(44,35,20,0.22); stroke:rgba(44,35,20,0.32); stroke-width:1;
+  transform-box:fill-box; transform-origin:center;
+}
+.map-node-glow{
+  fill:var(--success); filter:blur(3px); opacity:0;
+  transform-box:fill-box; transform-origin:center;
+}
 .map-node-num{ font-family:'Space Mono', monospace; font-size:9px; fill:rgba(44,35,20,0.35); }
-.map-node.unlocked .map-node-dot{ fill:var(--gold); stroke:var(--gold-soft); animation:node-pulse 3.2s ease-in-out infinite; }
-.map-node.unlocked .map-node-num{ fill:var(--gold-soft); }
-.map-node-glow{ fill:rgba(201,160,42,0.28); filter:blur(3px); }
 .map-node-link{ cursor:pointer; }
+
+.map-node.unlocked .map-node-dot{
+  fill:var(--success); stroke:var(--success-deep);
+  animation:node-pulse 2.6s ease-in-out infinite;
+}
+.map-node.unlocked .map-node-glow{ opacity:0.45; animation:glow-pulse 2.6s ease-in-out infinite; }
+.map-node.unlocked .map-node-num{ fill:var(--success-deep); }
+
+/* freshly unlocked this session: a one-time bounce-in takes over, then settles into the pulse above */
+.map-node.pop .map-node-dot{ animation: node-pop 0.55s cubic-bezier(.34,1.56,.64,1) both; }
+.map-node.pop .map-node-glow{ opacity:0.45; animation: node-pop 0.55s cubic-bezier(.34,1.56,.64,1) both 0.05s; }
+
 @keyframes node-pulse{
   0%,100%{ opacity:1; }
-  50%{ opacity:0.72; }
+  50%{ opacity:0.7; }
+}
+@keyframes glow-pulse{
+  0%,100%{ opacity:0.35; transform:scale(1); }
+  50%{ opacity:0.6; transform:scale(1.15); }
+}
+@keyframes node-pop{
+  0%{ transform:scale(0); opacity:0; }
+  60%{ transform:scale(1.15); opacity:1; }
+  100%{ transform:scale(1); opacity:1; }
 }
 
 .name-setup{ display:flex; flex-direction:column; gap:10px; }

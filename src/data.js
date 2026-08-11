@@ -34,34 +34,34 @@ export const QUEST = {
   sexta: {
     title: 'Fragmento IV', sub: 'O Fechamento da Crônica',
     story: [
-      'Três dias, três fragmentos, três pedaços de um mapa que você guardou sem saber pra onde levava. Hoje o silêncio se completa — e como toda boa crônica, o final não estava no lugar que você esperava.',
-      'Não existe mapa sem ponto de partida. Vá para onde a poeira da estrada é lavada antes de qualquer viagem recomeçar — onde as roupas descansam entre uma jornada e outra.'
+      'Três dias, três fragmentos, um mapa que você guardou sem saber pra onde levava. Hoje o silêncio se completa — e o final não está onde você espera.',
+      'Não existe mapa sem ponto de partida. Vá para onde moram os produtos que deixam a casa limpa — e a ração de quem vigia nossas fronteiras peludas.'
     ],
     attr: 'coragem',
-    accept: ['area de servico', 'area de serviço', 'lavanderia', 'servico', 'serviço'],
-    hint: 'Onde a roupa suja vira roupa limpa antes de qualquer viagem.',
+    accept: ['area de servico', 'area de serviço', 'servico', 'serviço'],
+    hint: 'Onde ficam o sabão em pó e a ração dos gatos.',
     next: 'area-servico', nextLabel: 'Área de Serviço'
   },
   'area-servico': {
     title: 'A Passagem', sub: 'Os Guardiões do Não-Mundo',
     story: [
-      'Diz a lenda que certas criaturas guardam a fronteira entre o mundo que vemos e o que não vemos — e cobram um preço de quem tenta atravessar sem permissão.',
-      'Os seus guardiões não pedem moedas nem enigmas. Só pedem que você continue procurando. Vá até onde eles espreitam, observam e nunca contam o que viram — algo com garras, entre o dentro e o fora de casa.'
+      'Você resolveu o primeiro mistério — os guardiões já sabem que está por perto.',
+      'Agora procure o móvel que eles arranham todos os dias, onde afiam as garras e brincam sem parar.'
     ],
     attr: 'percepcao',
     accept: ['arranhador', 'arranhador dos gatos', 'gatos', 'arranhador do gato'],
-    hint: 'Onde os gatos afiam as garras.',
+    hint: 'É o arranhador de gatos.',
     next: 'arranhador', nextLabel: 'Arranhador dos Gatos'
   },
   arranhador: {
     title: 'Os Arquivos', sub: 'Onde a Memória Mora',
     story: [
-      'Nos Arquivos, dizem que tudo o que já foi escrito ainda existe — só é preciso saber procurar no lugar certo, entre o que parece só trabalho e o que na verdade é memória.',
-      'A próxima palavra da crônica está onde as outras palavras já moram — entre papéis, cadernos e a bagunça organizada de quem também escreve suas próprias histórias.'
+      'Nos Arquivos, dizem que tudo o que já foi escrito ainda existe — inclusive o código que ninguém mais lembra por que funciona.',
+      'A próxima palavra da crônica está onde eu escrevo as minhas: entre teclado, monitor e linhas de código que só fazem sentido às 2 da manhã.'
     ],
     attr: 'vinculo',
     accept: ['escritorio', 'escritório', 'mesa do escritorio', 'mesa', 'mesa do escritório'],
-    hint: 'Onde eu trabalho e você às vezes me rouba a cadeira.',
+    hint: 'Onde eu resolvo bugs e escrevo commits.',
     next: 'escritorio', nextLabel: 'Mesa do Escritório'
   },
   escritorio: {
