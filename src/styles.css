@@ -96,15 +96,36 @@ h1{
   margin-top:24px; display:flex; align-items:center; justify-content:center; gap:8px;
   font-family:'Space Mono', monospace; font-size:12px; letter-spacing:0.06em;
   color:var(--gold-soft); text-transform:uppercase;
+  animation: gain-in 0.5s cubic-bezier(.34,1.56,.64,1) both;
 }
 .gain .dot{ width:5px; height:5px; border-radius:50%; background:var(--gold); }
+@keyframes gain-in{
+  from{ opacity:0; transform:translateY(6px) scale(0.9); }
+  to{ opacity:1; transform:translateY(0) scale(1); }
+}
+
+.answer-label{
+  margin-top:22px; font-family:'Space Mono', monospace; font-size:12.5px; font-weight:700;
+  letter-spacing:0.09em; text-transform:uppercase; text-align:center; color:var(--gold-soft);
+}
 
 input[type=text]{
   width:100%; font-family:'EB Garamond', serif; font-size:18px; padding:13px 14px;
   border:1px solid rgba(44,35,20,0.35); border-radius:2px;
-  background:rgba(255,251,238,0.6); color:var(--ink-text); margin-top:18px;
+  background:rgba(255,251,238,0.6); color:var(--ink-text); margin-top:10px;
+  transition: border-color 0.2s ease, background 0.2s ease;
 }
 input[type=text]:focus{ outline:2px solid var(--gold-soft); outline-offset:1px; }
+input[type=text].shake{ border-color:var(--ember); animation: input-shake 0.45s ease-in-out; }
+@keyframes input-shake{
+  0%,100%{ transform:translateX(0); }
+  20%{ transform:translateX(-8px); }
+  40%{ transform:translateX(7px); }
+  60%{ transform:translateX(-5px); }
+  80%{ transform:translateX(3px); }
+}
+
+.button-wrap{ position:relative; }
 
 button{
   font-family:'Cinzel', serif; font-size:14px; letter-spacing:0.05em; font-weight:600;
@@ -113,13 +134,88 @@ button{
   background:linear-gradient(180deg, #d3aa38, var(--gold-soft));
   color:#2c2210; cursor:pointer;
   box-shadow: 0 6px 16px -6px rgba(165,132,42,0.6);
+  transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.2s ease, background 0.3s ease;
 }
+button:hover:not(:disabled){ transform:translateY(-2px); box-shadow:0 10px 24px -8px rgba(165,132,42,0.65); filter:brightness(1.05); }
 button:active{ transform:translateY(1px); }
 button:disabled{ opacity:0.55; cursor:default; }
+button.solved{
+  background:linear-gradient(180deg, #7fb279, var(--success));
+  color:#132b12; opacity:1;
+}
+button.solved-pop{ animation: button-pop 0.5s cubic-bezier(.34,1.56,.64,1); }
 
-.msg{ font-family:'Space Mono', monospace; font-size:12.5px; margin-top:12px; text-align:center; min-height:16px; }
+.spark-burst{
+  position:absolute; inset:0; pointer-events:none;
+  display:flex; align-items:center; justify-content:center;
+}
+.spark{
+  position:absolute; top:50%; left:50%; width:4px; height:4px; border-radius:50%;
+  background:var(--gold); opacity:0;
+  animation: spark-fly 0.7s ease-out forwards;
+  animation-delay: calc(var(--i) * 0.03s);
+}
+@keyframes spark-fly{
+  0%{ transform: rotate(calc(var(--i) * 45deg)) translateY(0) scale(1); opacity:1; }
+  100%{ transform: rotate(calc(var(--i) * 45deg)) translateY(-42px) scale(0.3); opacity:0; }
+}
+@keyframes button-pop{
+  0%{ transform:scale(1); }
+  40%{ transform:scale(1.04); }
+  100%{ transform:scale(1); }
+}
+
+.card.card-success{ animation: card-flash 1.3s ease-out; }
+@keyframes card-flash{
+  0%{
+    box-shadow: 0 30px 60px -20px var(--shadow-deep), 0 0 0 1px rgba(44,35,20,0.15),
+      inset 0 0 40px rgba(139,116,58,0.08), 0 0 0 0 rgba(95,138,90,0);
+  }
+  25%{
+    box-shadow: 0 30px 60px -20px var(--shadow-deep), 0 0 0 1px rgba(44,35,20,0.15),
+      inset 0 0 80px rgba(95,138,90,0.4), 0 0 60px 10px rgba(95,138,90,0.45);
+  }
+  100%{
+    box-shadow: 0 30px 60px -20px var(--shadow-deep), 0 0 0 1px rgba(44,35,20,0.15),
+      inset 0 0 40px rgba(139,116,58,0.08), 0 0 0 0 rgba(95,138,90,0);
+  }
+}
+
+/* wax-seal style stamp that slams onto the card the moment a riddle is solved */
+.solved-stamp{
+  position:absolute; top:50%; left:50%; z-index:5; pointer-events:none;
+  width:108px; height:108px; margin:-54px 0 0 -54px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  background:
+    radial-gradient(circle at 35% 30%, rgba(255,241,199,0.5), transparent 55%),
+    radial-gradient(circle, var(--success) 0%, var(--success-deep) 72%, #23401f 100%);
+  border:3px solid rgba(19,43,18,0.55);
+  box-shadow: 0 14px 30px -8px rgba(0,0,0,0.55), inset 0 0 0 4px rgba(255,255,255,0.08);
+  animation: stamp-in 1.7s cubic-bezier(.2,.9,.25,1) both;
+}
+.solved-stamp-check{
+  font-family:'Cinzel', serif; font-size:46px; font-weight:700; color:#f4ecd2;
+  text-shadow:0 2px 4px rgba(0,0,0,0.4);
+}
+@keyframes stamp-in{
+  0%{ transform:scale(2.6) rotate(-24deg); opacity:0; }
+  38%{ transform:scale(0.92) rotate(6deg); opacity:1; }
+  55%{ transform:scale(1.08) rotate(-3deg); opacity:1; }
+  72%{ transform:scale(1) rotate(0deg); opacity:1; }
+  88%{ transform:scale(1) rotate(0deg); opacity:1; }
+  100%{ transform:scale(1) rotate(0deg); opacity:0; }
+}
+
+.msg{
+  font-family:'Space Mono', monospace; font-size:12.5px; margin-top:12px; text-align:center; min-height:16px;
+  opacity:0; animation: msg-in 0.35s ease-out forwards;
+}
 .msg.err{ color:var(--ember); }
-.msg.ok{ color:var(--success); }
+.msg.ok{ color:var(--success-deep); font-size:14px; font-weight:700; }
+@keyframes msg-in{
+  from{ opacity:0; transform:translateY(4px); }
+  to{ opacity:1; transform:translateY(0); }
+}
 
 .sheet-name{ text-align:center; font-family:'Cinzel', serif; font-size:15px; color:var(--gold-soft); margin-bottom:2px; }
 .rank{ text-align:center; font-family:'Space Mono', monospace; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--violet-grey); margin-bottom:22px; }
@@ -138,20 +234,19 @@ button:disabled{ opacity:0.55; cursor:default; }
   font-size:15px; color:var(--ink-text-soft); padding:9px 0;
   border-bottom:1px solid rgba(44,35,20,0.10);
   display:flex; justify-content:space-between; text-decoration:none;
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 .chest-item:last-child{ border-bottom:none; }
 .chest-item.locked{ color:rgba(44,35,20,0.32); }
-.chest-item span.arrow{ color:var(--gold-soft); }
+.chest-item span.arrow{ color:var(--gold-soft); transition: transform 0.2s ease; }
+a.chest-item:hover{ transform:translateX(4px); color:var(--ink-text); }
+a.chest-item:hover span.arrow{ transform:translateX(3px); }
 
 .footer-note{
   display:block; text-align:center; font-family:'Space Mono', monospace; font-size:10.5px;
   color:var(--violet-grey); margin-top:22px; opacity:0.75; text-decoration:none;
 }
 .footer-area{ display:flex; flex-direction:column; align-items:center; margin-top:22px; }
-.footer-hint{
-  font-family:'Space Mono', monospace; font-size:10.5px; color:var(--violet-grey);
-  opacity:0.75; text-align:center; margin-bottom:14px;
-}
 
 .sheet-footer{
   position:relative; text-align:center; max-width:300px; margin:0 auto; padding-top:20px;
@@ -178,6 +273,14 @@ button:disabled{ opacity:0.55; cursor:default; }
 }
 .back-button:active{ transform:translateY(1px); }
 .back-button-arrow{ font-size:13px; line-height:1; }
+
+.back-locked{
+  display:inline-flex; align-items:center; gap:7px; max-width:260px;
+  font-family:'Space Mono', monospace; font-size:11px; letter-spacing:0.04em; text-align:center;
+  color:var(--violet-grey); padding:10px 18px; border-radius:999px;
+  border:1px dashed rgba(139,132,168,0.5);
+  background:rgba(139,132,168,0.06);
+}
 
 .sacred-line{
   text-align:center; font-style:italic; font-family:'Cinzel', serif;
@@ -206,13 +309,17 @@ button:disabled{ opacity:0.55; cursor:default; }
 .map-node-dot{
   fill:rgba(44,35,20,0.22); stroke:rgba(44,35,20,0.32); stroke-width:1;
   transform-box:fill-box; transform-origin:center;
+  transition: filter 0.2s ease;
 }
 .map-node-glow{
   fill:var(--success); filter:blur(3px); opacity:0;
   transform-box:fill-box; transform-origin:center;
+  transition: opacity 0.2s ease;
 }
 .map-node-num{ font-family:'Space Mono', monospace; font-size:9px; fill:rgba(44,35,20,0.35); }
 .map-node-link{ cursor:pointer; }
+.map-node-link:hover .map-node-dot{ filter:brightness(1.2); }
+.map-node-link:hover .map-node-glow{ opacity:0.75; }
 
 .map-node.unlocked .map-node-dot{
   fill:var(--success); stroke:var(--success-deep);

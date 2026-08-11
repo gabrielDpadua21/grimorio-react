@@ -5,9 +5,9 @@ const STORAGE_KEY = 'gv_state_v1'
 function loadState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
-    if (raw) return JSON.parse(raw)
+    if (raw) return { solved: {}, ...JSON.parse(raw) }
   } catch (e) { /* ignore corrupt state */ }
-  return { name: '', unlocked: {}, attrs: { vinculo: 0, sabedoria: 0, percepcao: 0, coragem: 0 }, completedAt: null }
+  return { name: '', unlocked: {}, solved: {}, attrs: { vinculo: 0, sabedoria: 0, percepcao: 0, coragem: 0 }, completedAt: null }
 }
 
 export function useGameState() {
@@ -45,7 +45,16 @@ export function useGameState() {
     persist({ ...state, completedAt: Date.now() })
   }, [state, persist])
 
-  const isUnlocked = useCallback((stageId) => !!state.unlocked[stageId], [state])
+  const markSolved = useCallback((questId) => {
+    if (state.solved[questId]) return
+    persist({ ...state, solved: { ...state.solved, [questId]: true } })
+  }, [state, persist])
 
-  return { state, setName, unlockAndGrant, markCompleted, isUnlocked, justUnlockedIds, ackJustUnlocked }
+  const isUnlocked = useCallback((stageId) => !!state.unlocked[stageId], [state])
+  const isSolved = useCallback((questId) => !!state.solved[questId], [state])
+
+  return {
+    state, setName, unlockAndGrant, markCompleted, isUnlocked,
+    justUnlockedIds, ackJustUnlocked, markSolved, isSolved
+  }
 }

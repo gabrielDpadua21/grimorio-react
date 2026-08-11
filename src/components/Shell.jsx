@@ -1,8 +1,8 @@
-export default function Shell({ eyebrow, children, footer }) {
+export default function Shell({ eyebrow, children, footer, cardClassName }) {
   return (
     <div className="stage">
       {eyebrow && <div className="eyebrow">{eyebrow}</div>}
-      <div className="card">
+      <div className={`card${cardClassName ? ` ${cardClassName}` : ''}`}>
         <div className="flicker" />
         {children}
       </div>
