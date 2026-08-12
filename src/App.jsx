@@ -5,6 +5,7 @@ import NameGate from './components/NameGate.jsx'
 import Sheet from './components/Sheet.jsx'
 import StagePage from './components/StagePage.jsx'
 import QuestPage from './components/QuestPage.jsx'
+import PresentPage from './components/PresentPage.jsx'
 import Admin from './components/Admin.jsx'
 
 function Gate({ game, children }) {
@@ -36,6 +37,10 @@ export default function App() {
           element={<Gate game={game}><QuestPage id={id} data={data} game={game} /></Gate>}
         />
       ))}
+      <Route
+        path="/presente"
+        element={<Gate game={game}><PresentPage game={game} /></Gate>}
+      />
     </Routes>
   )
 }

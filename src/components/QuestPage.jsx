@@ -1,9 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Shell from './Shell.jsx'
 import BackButton from './BackButton.jsx'
 import { ATTR_LABELS, normalize } from '../data.js'
+import { unlockAudio, playSealChime } from '../sound.js'
 
 export default function QuestPage({ id, data, game }) {
+  const navigate = useNavigate()
   const alreadyRef = useRef(game.isUnlocked(id))
   const justUnlocked = useRef(false)
   const [answer, setAnswer] = useState(() => (game.isSolved(id) ? data.nextLabel : ''))
@@ -19,11 +22,21 @@ export default function QuestPage({ id, data, game }) {
     if (!alreadyRef.current) {
       justUnlocked.current = game.unlockAndGrant(id, data.attr)
     }
-    if (data.final && !game.state.completedAt) {
-      game.markCompleted()
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
+
+  const seal = () => {
+    if (solved) return
+    unlockAudio()
+    playSealChime()
+    setSolved(true)
+    setJustSolved(true)
+    game.markSolved(id)
+    game.markCompleted()
+    setTimeout(() => {
+      navigate('/', { state: { justCompleted: true }, replace: true })
+    }, 1800)
+  }
 
   const submit = () => {
     const val = normalize(answer)
@@ -47,7 +60,19 @@ export default function QuestPage({ id, data, game }) {
 
   if (data.final) {
     return (
-      <Shell eyebrow={data.sub} footer={<BackButton label="Ver ficha completa" />}>
+      <Shell
+        eyebrow={data.sub}
+        cardClassName={justSolved ? 'card-success' : ''}
+        footer={
+          solved ? (
+            <BackButton label="Ver ficha completa" />
+          ) : (
+            <div className="back-locked">
+              <span aria-hidden="true">🔒</span> Sele a crônica pra voltar ao grimório
+            </div>
+          )
+        }
+      >
         <h1>{data.title}</h1>
         <div className="divider" />
         <div className="story">
@@ -67,6 +92,23 @@ export default function QuestPage({ id, data, game }) {
         <div className="story">
           {data.closing.map((p, i) => <p key={i}><em>{p}</em></p>)}
         </div>
+        <div className="button-wrap">
+          <button onClick={seal} disabled={solved} className={`${solved ? 'solved' : ''} ${justSolved ? 'solved-pop' : ''}`}>
+            {solved ? '✓ Crônica selada' : 'Selar a crônica'}
+          </button>
+          {justSolved && (
+            <span className="spark-burst" aria-hidden="true">
+              {Array.from({ length: 8 }).map((_, i) => (
+                <span key={i} className="spark" style={{ '--i': i }} />
+              ))}
+            </span>
+          )}
+        </div>
+        {justSolved && (
+          <div className="solved-stamp" aria-hidden="true">
+            <span className="solved-stamp-check">✓</span>
+          </div>
+        )}
       </Shell>
     )
   }

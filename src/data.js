@@ -3,30 +3,29 @@ export const STAGES = {
     title: 'Fragmento I', sub: 'O Silêncio de Três Partes',
     attr: 'vinculo',
     story: [
-      'Toda crônica começa num silêncio antes da primeira palavra. O seu começa aqui, nesta xícara, num dia comum que só parece comum.',
-      'Você foi escolhida — não por sorte, mas porque quem escreve esta história a conhece bem demais para escolher outra pessoa.',
-      'Esta semana, você não vai apenas viver os dias. Vai colecioná-los. Cada presente carrega um fragmento. Guarde todos — na sexta-feira, quando o silêncio se completar, vai precisar de todos os pedaços.'
+      'Toda grande crônica começa do mesmo jeito: um dia comum, um café de sempre, e um chamado que muda tudo. O seu começa agora — hoje, 12 de agosto.',
+      'Hoje não é uma data escolhida à toa: faz exatamente dois anos e seis meses que a nossa história começou. E antes do seu aniversário chegar de vez, no dia 21, eu quis antecipar essa parte pra juntar as duas coisas que mais importam: você, e nós dois.',
+      'A partir de agora, cada coisa que eu te der carrega um fragmento de uma história. Guarda cada um — em poucos minutos, quando os três se completarem, a crônica vira caçada de verdade.'
     ],
-    sig: '— Que comece a crônica.'
+    sig: '— Que comece a jornada.'
   },
   terca: {
     title: 'Fragmento II', sub: 'Os Nomes Têm Poder',
     attr: 'sabedoria',
     story: [
-      'Na Universidade, dizem que conhecer o nome verdadeiro de uma coisa é ter poder sobre ela. Eu conheço o seu nome verdadeiro há muito tempo — não o que está no seu documento, mas o que você é quando ninguém está olhando.',
-      'Este livro não é só um presente. Um dia você vai encontrar nele mais do que uma história.',
-      'Guarde este fragmento com o primeiro. Faltam duas partes do mapa.'
+      'Na Universidade, dizem que conhecer o nome verdadeiro de uma coisa é ter poder sobre ela. Eu aprendi o seu nome verdadeiro faz dois anos e meio — não o que está no seu documento, mas o que você é quando ninguém está olhando.',
+      'Este livro guarda mais do que uma leitura. Guarda o segundo fragmento — falta só mais um pra crônica se completar.'
     ],
-    sig: '— A crônica continua.'
+    sig: '— A história continua.'
   },
   quarta: {
     title: 'Fragmento III', sub: 'A Luz no Underthing',
     attr: 'percepcao',
     story: [
-      'Nem toda passagem secreta fica embaixo da terra. Algumas ficam dentro de quem amamos, e só se revelam quando alguém se importa o suficiente pra procurar.',
-      'Esta luz é para os momentos em que o caminho parece escuro — inclusive sexta-feira de manhã, bem cedo, quando a crônica vai pedir que você acenda algo antes de seguir em frente.'
+      'Nem toda luz vem de fora. Às vezes a gente só precisa de uma vela, e de alguém disposto a acender o que for preciso.',
+      'Terceiro fragmento — e com ele, os três estão completos. A manhã ainda não acabou, e a crônica já está prestes a virar outra coisa.'
     ],
-    sig: '— Terceiro fragmento. Só falta um.'
+    sig: '— Agora sim.'
   }
 }
 
@@ -34,7 +33,7 @@ export const QUEST = {
   sexta: {
     title: 'Fragmento IV', sub: 'O Fechamento da Crônica',
     story: [
-      'Três dias, três fragmentos, um mapa que você guardou sem saber pra onde levava. Hoje o silêncio se completa — e o final não está onde você espera.',
+      'Três presentes, três fragmentos — tudo isso numa manhã só, porque algumas coisas não aguentam esperar uma semana inteira, nem chegar exatamente no dia certo.',
       'Não existe mapa sem ponto de partida. Vá para onde moram os produtos que deixam a casa limpa — e a ração de quem vigia nossas fronteiras peludas.'
     ],
     attr: 'coragem',
@@ -87,10 +86,16 @@ export const QUEST = {
     attr: 'coragem',
     closing: [
       'No fim, toda crônica é sobre a mesma coisa: alguém que vale a pena procurar até o fim do mapa.',
-      'Você não precisou de simpatia, nem de magia da Universidade, pra encontrar isso — só precisou confiar que eu deixaria um caminho.',
-      'Feliz aniversário. Nosso, e seu. Eu te amo, hoje e em toda crônica que ainda vamos escrever juntos.'
+      'Hoje fazemos dois anos e seis meses juntos — e eu não quis esperar até o dia 21 pra te mostrar isso. Aquele a gente ainda comemora do jeito certo, saindo por aí. Mas essa parte eu quis antecipar.',
+      'Feliz aniversário de namoro. E, adiantado, feliz aniversário de vida. Eu te amo, hoje e em toda crônica que a gente ainda vai escrever juntos.'
     ]
   }
+}
+
+export const PRIZE = {
+  eyebrow: 'A Última Página',
+  title: 'Seu Prêmio Está à Sua Espera',
+  caption: 'Um retrato, feito só pra guardar você do jeito que eu vejo.'
 }
 
 export const ATTR_LABELS = { vinculo: 'Vínculo', sabedoria: 'Sabedoria', percepcao: 'Percepção', coragem: 'Coragem' }

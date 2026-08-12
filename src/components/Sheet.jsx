@@ -1,12 +1,25 @@
-import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import Shell from './Shell.jsx'
 import MapProgress from './MapProgress.jsx'
 import { ATTR_LABELS, ATTR_MAX, CHEST_ORDER, rankTitle } from '../data.js'
+import { playCompleteChime } from '../sound.js'
 
 export default function Sheet({ game }) {
   const { state, isUnlocked, justUnlockedIds, ackJustUnlocked } = game
   const complete = !!state.completedAt
   const total = Object.values(state.attrs).reduce((a, b) => a + b, 0)
+  const location = useLocation()
+  const navigate = useNavigate()
+  const [celebrate] = useState(() => !!location.state?.justCompleted)
+
+  useEffect(() => {
+    if (!celebrate) return undefined
+    playCompleteChime()
+    const t = setTimeout(() => navigate('/presente', { replace: true }), 2400)
+    return () => clearTimeout(t)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [celebrate])
 
   return (
     <Shell
@@ -32,7 +45,15 @@ export default function Sheet({ game }) {
         <div className="chest-title">
           Baú de Histórias · {total > 0 ? CHEST_ORDER.filter((e) => isUnlocked(e.id)).length : 0}/{CHEST_ORDER.length}
         </div>
-        <MapProgress isUnlocked={isUnlocked} justUnlockedIds={justUnlockedIds} onSeen={ackJustUnlocked} />
+        <div className="map-celebrate-wrap">
+          <MapProgress isUnlocked={isUnlocked} justUnlockedIds={justUnlockedIds} onSeen={ackJustUnlocked} />
+          {celebrate && (
+            <div className="map-celebrate-overlay" aria-hidden="true">
+              <div className="map-celebrate-burst" />
+              <p className="map-celebrate-text">✦ A crônica está completa ✦</p>
+            </div>
+          )}
+        </div>
         {CHEST_ORDER.map((e) => {
           const unlocked = isUnlocked(e.id)
           return unlocked ? (
